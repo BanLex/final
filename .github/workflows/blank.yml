@@ -30,8 +30,11 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-      #  shell: bash
-        run: echo "qwert" >> tteesstt
+        shell: bash
+        run: |
+          cd /home/banlex/final
+          echo "qwert" >> tteesstt
+          
         #ansible-playbook test.yml
 
       # Runs a set of commands using the runners shell
