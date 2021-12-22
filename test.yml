@@ -70,9 +70,9 @@
          mounts:
            - source: my-db
            - target: /usr/src/app/db
-         mounts:
-           - source: my-vol
-           - target: /usr/src/app/files
+#         mounts:
+#           - source: my-vol
+#           - target: /usr/src/app/files
     - name: Run Flask 2
       docker_container:
          name: flask2
@@ -84,15 +84,15 @@
          mounts:
            - source: my-db
            - target: /usr/src/app/db
-         mounts:
-           - source: my-vol
-           - target: /usr/src/app/files
+#         mounts:
+#           - source: my-vol
+#           - target: /usr/src/app/files
     - name: Run Nginx
       docker_container:
          name: nginx
          image: nginx:v2 
          state: started
-         published_ports: "80:80", "443:443"
+ #        published_ports: "80:80", "443:443"
          exposed_ports: 80, 443
          networks:
            - name: flask
