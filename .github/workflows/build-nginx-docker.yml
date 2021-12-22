@@ -8,7 +8,8 @@ jobs:
   build:
 
     runs-on: self-hosted
-
+    env:
+      VERSION: git describe --long
     steps:
 #    - uses: actions/checkout@v2
 #    - name: Build the Docker image
@@ -21,4 +22,5 @@ jobs:
           git pull
           #ansible-playbook test.yml
           cd nginx
-          docker build -t flask:git describe --long
+          
+          docker build -t flask:env.VERSION
