@@ -1,10 +1,6 @@
 upstream python_servers {
-    server localhost:8001;
-    server localhost:8002;
-    server localhost:8003;
-    server localhost:8004;
-    server localhost:8005;
-
+    server localhost:5000;
+    server localhost:5001;
 }
 
 server {
@@ -21,37 +17,13 @@ server {
         ssl_certificate /etc/nginx/ssl/user218.sytes.net.crt;
         ssl_certificate_key /etc/nginx/ssl/device.key;
         ssl on;
-	root /var/www/user218.sytes.net;
+#	root /var/www/user218.sytes.net;
 
-	index index.html index.htm index.nginx-debian.html;
+#	index index.html index.htm index.nginx-debian.html;
 
 	server_name user218.sytes.net;
 
 	location / {
-		try_files $uri $uri/ =404;
+		proxy_pass http://python_servers;
 	}
-
-        location /python {
-            proxy_pass http://python_servers;
-        }
 }
-
-
-# Virtual Host configuration for example.com
-#
-# You can move that to a different file under sites-available/ and symlink that
-# to sites-enabled/ to enable it.
-#
-#server {
-#	listen 80;
-#	listen [::]:80;
-#
-#	server_name example.com;
-#
-#	root /var/www/example.com;
-#	index index.html;
-#
-#	location / {
-#		try_files $uri $uri/ =404;
-#	}
-#}

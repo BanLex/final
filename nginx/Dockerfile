@@ -1,6 +1,8 @@
 FROM nginx
-COPY index.html /etc/nginx/ssl/
-COPY index.html /etc/nginx/ssl/
+COPY device.key /etc/nginx/ssl/
+COPY user218.sytes.net.crt /etc/nginx/ssl/
+COPY user218.sytes.net /etc/nginx/conf.d/default.conf
 
-/etc/nginx/sites-available/
+EXPOSE 80 443
+CMD ["nginx", "-g", "daemon off;"]
 
