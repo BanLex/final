@@ -22,5 +22,5 @@ jobs:
           git pull
           #ansible-playbook test.yml
           cd nginx
-          export VERSION=git describe --long
-          docker build -t flask:$VERSION
+          #export VERSION=git describe --long
+          docker build -t flask:0.2
