@@ -21,6 +21,6 @@ jobs:
           cd /home/banlex/final
           git pull
           #ansible-playbook test.yml
-          cd nginx
+          cd ./nginx
           #export VERSION=git describe --long
-          docker build -t flask:0.1 .
+          docker build -t nginx:0.2 .
