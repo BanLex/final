@@ -30,6 +30,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
+        shell: bash
         run: |
           cd ~/final
           git pull
