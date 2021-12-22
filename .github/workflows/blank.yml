@@ -33,7 +33,8 @@ jobs:
         shell: bash
         run: |
           cd /home/banlex/final
-          echo "qwert" >> tteesstt
+          git pull
+          ansible-playbook test.yml
           
         #ansible-playbook test.yml
 
