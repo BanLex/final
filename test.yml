@@ -92,8 +92,7 @@
          name: nginx
          image: nginx:v2 
          state: started
-         published_ports: "80:80"
-         published_ports: "443:443"
+         published_ports: "80:80", "443:443"
          exposed_ports: 80, 443
          networks:
            - name: flask
