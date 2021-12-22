@@ -1,38 +1,99 @@
 ---
-- hosts: localhost
-  become: true
+- name: Installation, Docker Flask and Docker Nginx
+  hosts: all
+  become: yes
 
   tasks:
-    - name: Install required system packages
-      apt: name={{ item }} state=latest update_cache=yes
-      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
-
-#    - name: Add Docker GPG apt Key
-#      apt_key:
-#        url: https://download.docker.com/linux/ubuntu/gpg
-#        state: present
-#
-#    - name: Add Docker Repository
-#      apt_repository:
-#        repo: deb https://download.docker.com/linux/ubuntu bionic stable
-#        state: present
-#
-#    - name: Update apt and install docker-ce
-#      apt: update_cache=yes name=docker-ce state=latest
-#
-#    - name: Install Docker Module for Python
-#      pip:
-#        name: docker
-#
-#   - name: Pull default Docker image
-#     docker_image:
-#       name: "{{ container_image }}"
-#       source: pull
-#
-#   - name: Create default containers
-#     docker_container:
-#       name: "{{ container_name }}{{ item }}"
-#       image: "{{ container_image }}"
-#       command: "{{ container_command }}"
-#       state: present
-#     with_sequence: count={{ containers }}
+    - name: "Apt-get update"
+      apt:
+        update_cache: yes
+        cache_valid_time: 360
+    - name: Install Docker
+      apt:
+        name:
+        - "docker.io"
+        - "python3-pip"
+        state: present
+    - name: Install Docker SDK for Python
+      pip:
+       name: docker
+       executable: pip3
+    - name: Create Directory for projects
+      file: path=/opt/docker state=directory
+    - name: Copy NGINX docker 
+      copy:
+        src: nginx
+        dest: /opt/docker 
+        mode: 0755
+        owner: root
+        group: root
+    - name: Build Nginx Docker container 
+      community.docker.docker_image:
+        build: 
+          path: /opt/docker/nginx
+        name: nginx
+        tag: v2
+        source: build
+    - name: Copy Flask docker 
+      copy:
+        src: webapp
+        dest: /opt/docker 
+        mode: 0755
+        owner: root
+        group: root
+    - name: Build Flask Docker container 
+      community.docker.docker_image:
+        build: 
+          path: /opt/docker/webapp
+        name: flask
+        tag: v1
+        source: build
+    - name: Create a network
+      community.docker.docker_network:
+        name: flask
+        
+    - name: Create a volume
+      community.docker.docker_volume:
+        name: my-vol
+    - name: Create a volume
+      community.docker.docker_volume:
+        name: my-db
+        
+    - name: Run Flask 1
+      docker_container:
+         name: flask1
+         image: flask:v1 
+         state: started
+         exposed_ports: 5000
+         networks:
+           - name: flask
+         mounts:
+           - source: my-db
+           - target: /usr/src/app/db
+         mounts:
+           - source: my-vol
+           - target: /usr/src/app/files
+    - name: Run Flask 2
+      docker_container:
+         name: flask2
+         image: flask:v1 
+         state: started
+         exposed_ports: 5000
+         networks:
+           - name: flask
+         mounts:
+           - source: my-db
+           - target: /usr/src/app/db
+         mounts:
+           - source: my-vol
+           - target: /usr/src/app/files
+    - name: Run Nginx
+      docker_container:
+         name: nginx
+         image: nginx:v2 
+         state: started
+         published_ports: "80:80"
+         published_ports: "443:443"
+         exposed_ports: 80, 443
+         networks:
+           - name: flask
