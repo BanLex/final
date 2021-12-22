@@ -1,6 +1,6 @@
 upstream python_servers {
-    server localhost:5000;
-    server localhost:5001;
+    server flask1:5000;
+    server flask2:5000;
 }
 
 server {
