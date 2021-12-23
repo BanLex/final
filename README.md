@@ -4,7 +4,7 @@
 1.  Runner - сервер с GitHub runner, который при помощи ansible playbook собирает и разворачивает приложение на сервере docker-host.
 2. docker-host - сервер на котором будет развернуто приложение. В нём должен быть добавлен публичный сертификат runner.
 
-Для одготовки runner запустите на нём следующую команду:
+Для подготовки runner запустите на нём следующую команду:
 ```
 curl https://raw.githubusercontent.com/BanLex/final/main/pre_install.sh -O && chmod +x pre_install.sh && ./pre_install.sh
 ```
