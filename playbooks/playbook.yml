@@ -22,7 +22,7 @@
       file: path=/opt/docker state=directory
     - name: Copy NGINX docker 
       copy:
-        src: nginx
+        src: ../nginx
         dest: /opt/docker 
         mode: 0755
         owner: root
@@ -36,7 +36,7 @@
         source: build
     - name: Copy Flask docker 
       copy:
-        src: webapp
+        src: ../webapp
         dest: /opt/docker 
         mode: 0755
         owner: root
