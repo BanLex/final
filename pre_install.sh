@@ -1,6 +1,8 @@
 #!/bin/bash
 set -x
 sudo apt-get update -y
+sudo apt install software-properties-common -y
+sudo add-apt-repository --yes --update ppa:ansible/ansible -y
 sudo apt-get install -y git ansible
 ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub
