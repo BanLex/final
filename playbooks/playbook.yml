@@ -52,10 +52,13 @@
       community.docker.docker_network:
         name: flask
         
-    - name: Create a volume
+    - name: Create a volume my-vol
       community.docker.docker_volume:
         name: my-vol
-    - name: Create a volume
+#        volumes:
+#          - /usr/src/app/db
+#          - /usr/src/app/files
+    - name: Create a volume db
       community.docker.docker_volume:
         name: my-db
         
@@ -67,9 +70,11 @@
          exposed_ports: 5000
          networks:
            - name: flask
-         mounts:
-           - source: my-db
-           - target: /usr/src/app/db
+         volumes:
+           - my-vol:/usr/src/app/files
+           - my-db:/usr/src/app/db
+#           - source: my-vol
+#           - target: "/usr/src/app/db"
 #         mounts:
 #           - source: my-vol
 #           - target: /usr/src/app/files
@@ -81,9 +86,12 @@
          exposed_ports: 5000
          networks:
            - name: flask
-         mounts:
-           - source: my-db
-           - target: /usr/src/app/db
+         volumes:
+           - my-vol:/usr/src/app/files
+           - my-db:/usr/src/app/db
+#         mounts:
+#           - source: my-db
+#           - target: /usr/src/app/db
 #         mounts:
 #           - source: my-vol
 #           - target: /usr/src/app/files
@@ -92,7 +100,9 @@
          name: nginx
          image: nginx:v2 
          state: started
- #        published_ports: "80:80", "443:443"
-         exposed_ports: 80, 443
+         published_ports:
+           - "80:80"
+           - "443:443"
+#         exposed_ports: 80, 443
          networks:
            - name: flask

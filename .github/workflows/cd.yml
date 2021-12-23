@@ -28,7 +28,8 @@ jobs:
         run: |
           cd /home/banlex/final
           git pull
-          ansible-playbook -i hosts.ini test.yml
+          cd  playbooks
+          ansible-playbook -i hosts.ini playbook.yml
           
         #ansible-playbook test.yml
 
