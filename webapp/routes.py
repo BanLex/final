@@ -131,8 +131,7 @@ def register():
                            form=form,
                            text="Create account",
                            title="Register",
-                           btn_action="Register account"
-    )
+                           btn_action="Register account")
 
 
 @app.route("/logout")
