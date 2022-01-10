@@ -51,20 +51,20 @@ def session_handler():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=1)
 
-    
+
 @app.route("/<path:path>")
 @app.route("/index")
 @app.route("/")
 @login_required
-def index_2(path = ""):
+def index_2(path=""):
     direct = os.path.join(UPLOAD_FOLDER, path)
     entries = os.scandir(direct)
-    return render_template("index.html", entries = entries)
+    return render_template("index.html", entries=entries)
 
 
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
-    return render_template("index.html",title="Home")
+    return render_template("index.html", title="Home")
 
 
 @app.route("/login/", methods=("GET", "POST"), strict_slashes=False)
@@ -83,12 +83,11 @@ def login():
             flash(e, "danger")
 
     return render_template("auth.html",
-        form=form,
-        text="Login",
-        title="Login",
-        btn_action="Login"
-        )
-
+                           form=form,
+                           text="Login",
+                           title="Login",
+                           btn_action="Login"
+                          )
 
 
 # Register route
@@ -109,33 +108,34 @@ def register():
 
             db.session.add(newuser)
             db.session.commit()
-            flash(f"Account Succesfully created", "success")
+            flash("Account Succesfully created", "success")
             return redirect(url_for("login"))
 
         except InvalidRequestError:
             db.session.rollback()
-            flash(f"Something went wrong!", "danger")
+            flash("Something went wrong!", "danger")
         except IntegrityError:
             db.session.rollback()
-            flash(f"User already exists!.", "warning")
+            flash("User already exists!.", "warning")
         except DataError:
             db.session.rollback()
-            flash(f"Invalid Entry", "warning")
+            flash("Invalid Entry", "warning")
         except InterfaceError:
             db.session.rollback()
-            flash(f"Error connecting to the database", "danger")
+            flash("Error connecting to the database", "danger")
         except DatabaseError:
             db.session.rollback()
-            flash(f"Error connecting to the database", "danger")
+            flash("Error connecting to the database", "danger")
         except BuildError:
             db.session.rollback()
-            flash(f"An error occured !", "danger")
+            flash("An error occured !", "danger")
     return render_template("auth.html",
-        form=form,
-        text="Create account",
-        title="Register",
-        btn_action="Register account"
-        )
+                           form=form,
+                           text="Create account",
+                           title="Register",
+                           btn_action="Register account"
+                          )
+
 
 @app.route("/logout")
 @login_required
@@ -143,10 +143,12 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
+
 @app.route("/download_file/<path:path>")
 @login_required
 def download_file(path):
     return send_file(os.path.join(path))
+
 
 @app.route('/upload', methods=['GET', 'POST'])
 @login_required
@@ -163,13 +165,15 @@ def upload():
             filename = file.filename
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect(url_for('index',
-                filename=filename))
+                                    filename=filename))
         return render_template("index.html")
     return render_template("upload.html")
+
 
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 if __name__ == "__main__":
     app.run(debug=True)
