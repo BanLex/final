@@ -19,7 +19,7 @@ from sqlalchemy.exc import (
     InvalidRequestError,
 )
 from werkzeug.routing import BuildError
-from flask_bcrypt import Bcrypt,generate_password_hash, check_password_hash
+from flask_bcrypt import Bcrypt, generate_password_hash, check_password_hash
 from flask_login import (
     UserMixin,
     login_user,
@@ -28,14 +28,16 @@ from flask_login import (
     logout_user,
     login_required,
 )
-from app import create_app,db,login_manager,bcrypt
+from app import create_app, db, login_manager, bcrypt
 from models import User
-from forms import login_form,register_form
+from forms import login_form, register_form
 import os
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 app = create_app()
 
@@ -43,11 +45,13 @@ UPLOAD_FOLDER = './files'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif', 'pptx'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 @app.before_request
 def session_handler():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=1)
 
+    
 @app.route("/<path:path>")
 @app.route("/index")
 @app.route("/")
@@ -56,6 +60,7 @@ def index_2(path = ""):
     direct = os.path.join(UPLOAD_FOLDER, path)
     entries = os.scandir(direct)
     return render_template("index.html", entries = entries)
+
 
 @app.route("/", methods=("GET", "POST"), strict_slashes=False)
 def index():
