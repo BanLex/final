@@ -87,7 +87,7 @@ def login():
                            text="Login",
                            title="Login",
                            btn_action="Login"
-                          )
+    )
 
 
 # Register route
@@ -134,7 +134,7 @@ def register():
                            text="Create account",
                            title="Register",
                            btn_action="Register account"
-                          )
+    )
 
 
 @app.route("/logout")
