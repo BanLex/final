@@ -86,8 +86,7 @@ def login():
                            form=form,
                            text="Login",
                            title="Login",
-                           btn_action="Login"
-    )
+                           btn_action="Login")
 
 
 # Register route
@@ -103,8 +102,7 @@ def register():
             newuser = User(
                 username=username,
                 email=email,
-                pwd=bcrypt.generate_password_hash(pwd),
-            )
+                pwd=bcrypt.generate_password_hash(pwd),)
 
             db.session.add(newuser)
             db.session.commit()
