@@ -8,12 +8,15 @@
       apt:
         update_cache: yes
         cache_valid_time: 360
-    - name: Install Docker
+    - name: Install Docker from repository 
       apt:
-        name:
-        - "docker.io"
-        - "python3-pip"
-        state: present
+       name: docker.io
+       state: latest
+    - name: Install pip3 package
+      package:
+        update_cache: yes 
+        name: python3-pip
+        state: latest
     - name: Install Docker SDK for Python
       pip:
        name: docker
