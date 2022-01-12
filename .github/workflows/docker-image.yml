@@ -38,4 +38,4 @@ jobs:
         sudo apt install software-properties-common -y
         sudo add-apt-repository --yes --update ppa:ansible/ansible -y
         sudo apt-get install -y git ansible
-        ansible-playbook -i ./playbooks/hosts.ini ./playbooks/docker-image.yml
+        ansible-playbook -vvv -i ./playbooks/hosts.ini ./playbooks/docker-image.yml
