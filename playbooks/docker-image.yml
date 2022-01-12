@@ -11,7 +11,7 @@
     - name: Install Docker from repository 
       apt:
        name: docker.io
-#       state: latest
+       state: present
     - name: Install pip3 package
       package:
         update_cache: yes 
