@@ -13,14 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install SSH key
-      uses: shimataro/ssh-key-action@v2
-      with:
-        key: ${{ secrets.SSH_KEY }}
-        name: id_rsa # optional
-        known_hosts: ${{ secrets.KNOWN_HOSTS }}
-        config: ${{ secrets.CONFIG }} # ssh_config; optional
-        if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
+ #   - name: Install SSH key
+ #     uses: shimataro/ssh-key-action@v2
+ #     with:
+ #       key: ${{ secrets.SSH_KEY }}
+ #       name: id_rsa # optional
+ #       known_hosts: ${{ secrets.KNOWN_HOSTS }}
+ #       config: ${{ secrets.CONFIG }} # ssh_config; optional
+ #       if_key_exists: fail # replace / ignore / fail; optional (defaults to fail)
   
     # Steps represent a sequence of tasks that will be executed as part of the job
 #sudo apt-get update -y
@@ -33,9 +33,9 @@ jobs:
     - name: Run a one-line script
       shell: bash
       run: |
-        python -V
-        sudo apt-get update -y
-        sudo apt install software-properties-common -y
-        sudo add-apt-repository --yes --update ppa:ansible/ansible -y
-        sudo apt-get install -y git ansible
+ #       python -V
+ #       sudo apt-get update -y
+ #       sudo apt install software-properties-common -y
+ #       sudo add-apt-repository --yes --update ppa:ansible/ansible -y
+ #       sudo apt-get install -y git ansible
         ansible-playbook -vvv -i ./playbooks/hosts.ini ./playbooks/docker-image.yml
